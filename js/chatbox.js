@@ -146,6 +146,40 @@ document.addEventListener('DOMContentLoaded', function () {
         yesNoSelect.appendChild(noOption);
         return yesNoSelect;
       }
+      
+      
+      function fetch_and_show_current_enquiry_summary(currentEnquiryID) {
+        // Check if the currentEnquiryID is defined and not null
+        if (currentEnquiryID !== undefined && currentEnquiryID !== null) {
+            // Clear the messageBox
+            var doc_chat_redirect_button = document.querySelector(".doc-chat-page-url");
+            doc_chat_redirect_button.classList.remove("d-none");
+            console.log(doc_chat_redirect_button);
+            messageBox.innerHTML = '';
+    
+            var summaryHTML = `
+            <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                <div class="card w-50">
+                    <div class="card-body">
+                        <h5 class="card-title">Thank you for answering the questionnaire</h5>
+                        <p class="card-text">Here is a summary of your enquiry:</p>
+                        <p class="card-text">Reason: ${answers.reason}</p>
+                        <p class="card-text">Symptom Start Date: ${answers.symptomStartingDate}</p>
+                        <p class="card-text">Symptoms: ${answers.symptoms}</p>
+                        <p class="card-text">Additional Symptoms: ${answers.additionalSymptoms}</p>
+                    </div>
+                </div>
+            </div>`;
+            messageBox.innerHTML = summaryHTML;
+            messageBox.firstElementChild.appendChild(doc_chat_redirect_button);
+        } else {
+            console.log('currentEnquiryID is undefined or null');
+        }
+    }
+    
+    
+    
+    
 
     // Main chatbot logic
     (async function () {
@@ -227,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function () {
             userInput.innerHTML = '';
             userInput.append(textInputEle);
 
-
+            // var currentEnquiryID;
             jQuery(document).ready(function ($) {
                 $.ajax({
                     type: 'POST',
@@ -240,14 +274,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         additionalSymptoms: answers['additionalSymptoms'],
                     },
                     success: function (data) {
-                        // Handle the response from the server if needed
-                        // console.log(data);
+                        var responseData = JSON.parse(data);
+                        var currentEnquiryID = responseData.enquiry_post_id;
+                        fetch_and_show_current_enquiry_summary(currentEnquiryID);
                     }
                 });
             });
-
-            location.reload(true);
-            location.reload(true);
             
 
 

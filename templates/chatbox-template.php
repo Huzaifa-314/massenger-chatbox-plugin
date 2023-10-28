@@ -4,6 +4,12 @@
     wp_enqueue_script('chatbox-script', plugins_url('../js/chatbox.js', __FILE__), array('jquery'), '1.0', true);
     // The rest of your chatbox HTML and PHP code goes here
     // ...
+    $doc_chat_page_url = get_permalink(get_page_by_path('doc-chat'));
+    ?>
+    <a class="d-none doc-chat-page-url" href="<?php echo $doc_chat_page_url;?>">
+    <button class="btn btn-primary">Go to Doctors chat</button>
+    </a>
+    <?php
 ?>
 
 
@@ -28,6 +34,7 @@
             <!-- <div class="message received welcome-message">
                 <div class="message-content">Welcome to Prakki Chat! What is the reason for your visit?</div>
             </div> -->
+
 
 
 

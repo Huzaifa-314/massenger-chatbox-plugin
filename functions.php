@@ -466,7 +466,7 @@ Author: Your Name
 
         if ($post_id) {
             // Post was successfully created
-            echo json_encode(array('message' => 'Enquiry submitted successfully.'));
+            echo json_encode(array('enquiry_post_id' => $post_id));
         } else {
             // An error occurred
             echo json_encode(array('error' => 'Enquiry submission failed.'));
@@ -500,6 +500,46 @@ Author: Your Name
             return false; // The user doesn't have a post in the custom post type
         }
     }
+
+
+    function fetch_enquiry_summary() {
+        // Get the enquiry ID from the AJAX request
+        $enquiry_id = isset($_POST['enquiry_id']) ? intval($_POST['enquiry_id']) : 0;
+    
+        if ($enquiry_id > 0) {
+            // Query to retrieve the enquiry details based on the ID
+            $enquiry = get_post($enquiry_id);
+    
+            if ($enquiry) {
+                // Define an array to store post meta fields
+                $enquiry_data = array(
+                    'enquiry_id' => $enquiry->ID,
+                    'reason' => get_post_meta($enquiry->ID, 'reason', true),
+                    'symptom_start_date' => get_post_meta($enquiry->ID, 'symptom_start_date', true),
+                    'symptoms' => get_post_meta($enquiry->ID, 'symptoms', true),
+                    'additional_symptoms' => get_post_meta($enquiry->ID, 'additional_symptoms', true),
+                    // Add more fields as needed
+                );
+    
+                // Return the enquiry data as a JSON response
+                wp_send_json_success($enquiry_data);
+            } else {
+                // Enquiry not found
+                wp_send_json_error('Enquiry not found');
+            }
+        } else {
+            // Invalid or missing enquiry ID
+            wp_send_json_error('Invalid or missing enquiry ID');
+        }
+    
+        // Always exit after processing
+        wp_die();
+    }
+    
+    // Hook the function to the WordPress AJAX action
+    add_action('wp_ajax_fetch_enquiry_summary', 'fetch_enquiry_summary');
+    add_action('wp_ajax_nopriv_fetch_enquiry_summary', 'fetch_enquiry_summary');
+    
     
 
 

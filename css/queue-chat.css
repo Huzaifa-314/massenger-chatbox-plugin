@@ -2,10 +2,11 @@
 
 .chatbox-area{
     display: flex;
+    position:relative;
 }
 .chatbox-sidebar {
     flex-basis: 25%;
-    height: 100%;
+    height: 80vh;
     transition: 0.3s; /* Sidebar transition speed */
     overflow-y: scroll;
 }
@@ -17,9 +18,20 @@
     flex-basis: 75%;
     border-left: 1px solid grey;
 }
+.sidebar-header{
+    padding:15px; 
+    margin-bottom:0;
+    border-bottom:1px solid grey;
+    color:black;
+    background-color: #71c287;
+    position: absolute;
+    top:0;
+    width: 25%;
+}
 
 /* Sidebar content */
 .sidebar-content {
+    margin-top: 60px;
     width: 100%;
     /* padding: 20px; */
     text-align: left;
@@ -27,6 +39,7 @@
     flex-direction: column;
     align-items: flex-start;
     height: 100%;
+    /* overflow-y: scroll; */
 }
 
 /* Toggle Sidebar button */

@@ -1,4 +1,5 @@
 <?php
+ob_start();
 if (current_user_has_enquiry()) {
     wp_enqueue_style('chatbox-style', plugins_url('../css/chatbox.css', __FILE__));
     wp_enqueue_style('queue-chat-style', plugins_url('../css/queue-chat.css', __FILE__));
@@ -48,7 +49,7 @@ if (current_user_has_enquiry()) {
         <div class="chatbox">
             <div class="chatbox-area">
                 <div class="chatbox-sidebar">
-                    <h4 style="padding:15px; margin-bottom:0;border-bottom:1px solid grey;color:black;background-color: #71c287;">Enquiries</h4>
+                    <h4 class="sidebar-header">Enquiries</h4>
                     <div class="sidebar-content">
                         <?php
                         $current_user = wp_get_current_user();
@@ -56,6 +57,7 @@ if (current_user_has_enquiry()) {
                         // Create a custom query to retrieve the user's enquiry based on their ID
                         $enquiry_query = new WP_Query(array(
                             'post_type' => 'enquiry',
+                            'posts_per_page' => -1,
                             'author' => $current_user->ID,
                         ));
                     
@@ -72,6 +74,7 @@ if (current_user_has_enquiry()) {
                                 $symptom_starting_date = get_post_meta(get_the_ID(), 'symptom_starting_date', true);
                                 $symptoms = get_post_meta(get_the_ID(), 'symptoms', true);
                                 $additional_symptoms = get_post_meta(get_the_ID(), 'additional_symptoms', true);
+                                $has_answered = get_post_meta(get_the_ID(), 'has_answered', true);
                     
                                 // Customize the HTML structure for displaying the enquiry
                                 ?>
@@ -83,7 +86,9 @@ if (current_user_has_enquiry()) {
                                         <div class="symptoms"> <?php echo $symptoms; ?></div>
                                     </div>
                                     <div class="has-answered">
-                                        <div class="has-answered-indicator"></div>
+                                        <div class="has-answered-indicator <?php
+                                        if($has_answered=="0")
+                                        ?>"></div>
                                     </div>
                                     <!-- <p><strong>User ID:</strong> <?php echo $user_id; ?></p>
                                     <p><strong>Reason:</strong> <?php echo $reason; ?></p>
@@ -113,16 +118,15 @@ if (current_user_has_enquiry()) {
                     </div>
                 </div>
                 <div class="chatbox-messages">
-                    <div class="message received">
+                    <!-- <div class="message received">
                         <div class="message-content">Hello! How can I help you?</div>
                     </div>
                     <div class="message sent">
                         <div class="message-content">I have a question about your services.</div>
-                    </div>
-                    <!-- Add more messages as needed -->
-                    <!-- <div class="message received welcome-message">
-                        <div class="message-content">Welcome to Prakki Chat! What is the reason for your visit?</div>
                     </div> -->
+                    <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                        <h3>Select a chat</h3>
+                    </div>
 
 
                 </div>
@@ -140,8 +144,61 @@ if (current_user_has_enquiry()) {
     <?php
 
 }else{
+    wp_enqueue_style('chatbox-style4', plugins_url('../css/chatbox.css', __FILE__));
+    wp_enqueue_style('queue-chat-style4', plugins_url('../css/queue-chat.css', __FILE__));
+    wp_enqueue_script('queue-chat-script4', plugins_url('../js/queue_chat.js', __FILE__), array('jquery'), '1.0', true);
     $target_page_url = get_permalink(get_page_by_path('bot-chat'));
-    print_r($target_page_url);
-    wp_redirect($target_page_url);
+    // print_r($target_page_url);
+
+    ?>
+        <div class="chatbox">
+        <div class="chatbox-header">
+            <div class="user-avatar">
+                <img src="<?php echo plugin_dir_url(__FILE__) . 'chatbot.png'; ?>" alt="User Avatar">
+            </div>
+            <div class="user-info">
+                <div class="user-name">Prakki Bot</div>
+                <!-- <div class="user-status">Online</div> -->
+            </div>
+        </div>
+        <div class="chatbox-messages">
+            <!-- <div class="message received">
+                <div class="message-content">Hello! How can I help you?</div>
+            </div>
+            <div class="message sent">
+                <div class="message-content">I have a question about your services.</div>
+            </div> -->
+            <!-- Add more messages as needed -->
+            <!-- <div class="message received welcome-message">
+                <div class="message-content">Welcome to Prakki Chat! What is the reason for your visit?</div>
+            </div> -->
+
+
+
+
+
+            <div class="d-flex justify-content-center align-items-center w-100 h-100">
+            <a href="<?php echo $target_page_url;?>">
+                <button class="btn btn-primary">Go to new enquiry</button>
+            </a>
+            </div>
+            <!-- Display disease options as buttons -->
+            <div class="display-none">
+                <select class="reason-select">
+                    <option value = ''>Select your reason</option> <!-- Add an empty option to allow deselection -->
+                    <?php
+                    $disease_options = get_disease_options();
+                    foreach ($disease_options as $option) {
+                        echo '<option value="' . esc_attr($option) . '">' . esc_html($option) . '</option>';
+                    }
+                    ?>
+                </select>
+            </div>
+
+
+        </div>
+    </div>
+    <?php
 }
+ob_end_flush();
 ?>
