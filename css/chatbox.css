@@ -1,0 +1,140 @@
+/* Chatbox container */
+.chatbox {
+    position: relative;
+    width: 100%;
+    /* max-width: 400px; */
+    background-color: #fff; /* White background */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow-y: auto;
+    z-index: 999;
+    overflow: hidden;
+}
+
+/* Chatbox header */
+.chatbox-header {
+    background-color: #71c287; /* Light greenish color for header */
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
+    /* border-top-left-radius: 10px; */
+    border-top-right-radius: 10px;
+}
+
+.user-avatar img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-name {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.user-status {
+    font-size: 12px;
+}
+
+/* Chatbox messages */
+.chatbox-messages {
+    overflow-y: scroll;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 60vh;
+}
+
+.message {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%;
+}
+
+.sent {
+    background-color: #71c287; /* Light greenish color for sent messages */
+    color: #fff;
+    align-self: flex-end;
+}
+
+.received {
+    background-color: #e4e4e4; /* Light grayish color for received messages */
+    color: #000;
+    align-self: flex-start;
+}
+
+/* Chatbox input */
+.chatbox-input {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff; /* White background for input */
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    /* position: absolute; */
+    width: 100%;
+    border-top: 1px solid grey;
+    /* bottom: 0; */
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    background-color: #e4e4e4; /* Light grayish color for input field */
+}
+
+button {
+    background-color: #71c287; /* Light greenish color for the button */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.reason-select {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    /* background-color: #ff0000; Your desired background color */
+}
+
+.reason-button, .submit-button{
+    background-color: #e4e4e4;
+    color: black;
+}
+/* Styling for the calendar input */
+.calendar-input {
+    border: 1px solid #ccc; /* Add a border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 8px; /* Padding for better spacing */
+    margin: 10px 0; /* Add some vertical spacing */
+    font-size: 16px; /* Adjust the font size as needed */
+    width: 100%; /* Make the calendar input full width */
+    background-color: #fff; /* White background */
+    color: #333; /* Text color */
+}
+
+.display-none{
+    display: none;
+}
+
+
+
+
+
+
